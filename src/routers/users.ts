@@ -113,7 +113,7 @@ function initLoginUserRequestHandler(sequelizeClient: SequelizeClient): RequestH
         throw new UnauthorizedError('EMAIL_OR_PASSWORD_INCORRECT');
       }
 
-      if (user.passwordHash !== hashPassword(password)) {
+      if (user.passwordHash !== await hashPassword(password)) {
         throw new UnauthorizedError('EMAIL_OR_PASSWORD_INCORRECT');
       }
 
