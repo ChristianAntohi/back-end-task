@@ -1,5 +1,4 @@
 import { Router, RequestHandler } from 'express';
-import bcryptjs from 'bcryptjs';
 import { Op } from 'sequelize';
 
 import type { SequelizeClient } from '../sequelize';
@@ -58,6 +57,28 @@ function initCreateUserRequestHandler(sequelizeClient: SequelizeClient): Request
       // NOTE(roman): missing validation and cleaning
       const { type, name, email, password } = req.body as CreateUserData;
 
+      if (!type || typeof type !== 'string') {
+        throw new BadRequestError('Type is required' );
+      }
+
+      if (!name || typeof name !== 'string') {
+        throw new BadRequestError('Name is required' );
+      }
+
+      if (!email || typeof email !== 'string' || !isValidEmail(email)) {
+        throw new BadRequestError('Email is required');
+      }
+
+      if (!password || typeof password !== 'string') {
+        throw new BadRequestError('Password is required');
+      }
+
+      //email validation function
+      // eslint-disable-next-line no-inner-declarations
+      function isValidEmail(email: string) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
       await createUser({ type, name, email, password }, sequelizeClient);
 
       return res.status(204).end();
@@ -74,6 +95,14 @@ function initLoginUserRequestHandler(sequelizeClient: SequelizeClient): RequestH
     try {
       // NOTE(roman): missing validation and cleaning
       const { email, password } = req.body as { name: string; email: string; password: string };
+
+      if (!email || typeof email !== 'string') {
+        throw new BadRequestError('Email is required');
+      }
+
+      if (!password || typeof password !== 'string') {
+        throw new BadRequestError('Password is required');
+      }
 
       const user = await models.users.findOne({
         attributes: ['id', 'passwordHash'],
@@ -102,6 +131,18 @@ function initRegisterUserRequestHandler(sequelizeClient: SequelizeClient): Reque
     try {
       // NOTE(roman): missing validation and cleaning
       const { name, email, password } = req.body as Omit<CreateUserData, 'type'>;
+
+      if (!name || typeof name !== 'string') {
+        throw new BadRequestError('Name is required' );
+      }
+
+      if (!email || typeof email !== 'string') {
+        throw new BadRequestError('Email is required');
+      }
+
+      if (!password || typeof password !== 'string') {
+        throw new BadRequestError('Password is required');
+      }
 
       await createUser({ type: UserType.BLOGGER, name, email, password }, sequelizeClient);
 

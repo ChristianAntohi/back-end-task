@@ -1,5 +1,5 @@
 import { NotImplementedError } from "./errors";
-
+import bcrypt from 'bcryptjs';
 // TODO(roman): implement these
 // external libraries can be used
 // you can even ignore them and use your own preferred method
