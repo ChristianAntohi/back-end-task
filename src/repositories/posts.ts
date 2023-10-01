@@ -12,6 +12,8 @@ export class Post extends Model {
   title!: string;
   content!: string;
   authorId!: number;
+  //added the missing spec of posts model
+  isHidden!: boolean;
   createdAt!: Date;
   updatedAt!: Date;
 
