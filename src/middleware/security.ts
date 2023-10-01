@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { RequestHandler } from 'express';
 
 import type { SequelizeClient } from '../sequelize';
@@ -51,9 +52,17 @@ export function initTokenValidationRequestHandler(sequelizeClient: SequelizeClie
 }
 
 // NOTE(roman): assuming that `tokenValidationRequestHandler` is placed before
+//NOTE(christian): added admin role validation
 export function initAdminValidationRequestHandler(): RequestHandler {
   return function adminValidationRequestHandler(req, res, next): void {
-    throw new NotImplementedError('ADMIN_VALIDATION_NOT_IMPLEMENTED_YET');
+
+    const { auth: { user: { type: userType } } } = req as unknown as { auth: RequestAuth };
+
+    const isAdmin = userType === UserType.ADMIN;
+    if (!isAdmin) {
+      return next(new UnauthorizedError('UNAUTHORIZED'));
+    }
+    return next();
   };
 }
 
