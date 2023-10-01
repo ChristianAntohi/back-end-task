@@ -1,4 +1,5 @@
 import { Router, RequestHandler } from 'express';
+import bcryptjs from 'bcryptjs';
 import { Op } from 'sequelize';
 
 import type { SequelizeClient } from '../sequelize';
