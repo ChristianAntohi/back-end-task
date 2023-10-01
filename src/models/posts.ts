@@ -6,7 +6,9 @@ export function setupPostsModel(modelName: string, sequelize: Sequelize): void {
   Post.init({
     id: {
       type: DataTypes.INTEGER,
+      primaryKey: true,
       allowNull: false,
+      autoIncrement: true, //added the missing specifications like in the users model
     },
     title: {
       type: DataTypes.STRING,
