@@ -4,7 +4,7 @@ import { RequestHandler } from 'express';
 import type { SequelizeClient } from '../sequelize';
 import type { User } from '../repositories/types';
 
-import { UnauthorizedError, ForbiddenError, NotImplementedError } from '../errors';
+import { UnauthorizedError} from '../errors';
 import { isValidToken, extraDataFromToken } from '../security';
 import { UserType } from '../constants';
 
@@ -69,4 +69,7 @@ export function initAdminValidationRequestHandler(): RequestHandler {
 export interface RequestAuth {
   token: string;
   user: User;
+}
+export interface RequestParams {
+  id: string;
 }
