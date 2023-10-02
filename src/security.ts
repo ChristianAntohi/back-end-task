@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { NotImplementedError } from './errors';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -8,6 +7,7 @@ dotenv.config();
 // TODO(roman): implement these
 // external libraries can be used
 // you can even ignore them and use your own preferred method
+//done(christian)
 
 export async function hashPassword(password: string): Promise<string> {
   const hashedPassword: string = await bcryptjs.hash(password, 10);
